@@ -1,0 +1,33 @@
+#!groovy
+// Check vh1 and us properties
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("First step") {
+            steps {
+                sh 'ssh vh1@192.168.4.123 \'hostname\''
+            }
+        }
+        stage("Second step") {
+            steps {
+                sh 'ssh vh1@192.168.4.123 \'uptime\''
+            }
+        }
+        stage("Thitd step")  {
+            steps{
+                sh 'ssh us@192.168.4.89 \'hostname\''
+            }
+        }
+        stage("Fourth step")  {
+            steps {
+                sh 'ssh us@192.168.4.89 \'uptime\''
+            }
+        }
+        }
+    }
